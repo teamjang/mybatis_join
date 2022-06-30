@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="join">
+ 
+
+<resultMap type="emp" id="empMap">
+ <id property="eno" column = "ENO"/>
+ <result property="ename" column = "ENAME"/>
+ <result property="job" column = "JOB"/>
+ <result property="manager" column = "MANAGER"/>
+ <result property="hiredate" column = "HIREDATE"/>
+ <result property="salary" column = "SALARY"/>
+ <result property="commission" column = "COMMISSION"/>
+ <result property="dno" column = "DNO"/>
+</resultMap>
+
+<resultMap type="dept" id="deptMap">
+   <id property="dno" column="DNO" /> 
+   <result property="dname" column="DNAME"></result>
+   <result property="loc" column="LOC"></result>
+</resultMap>
+
+<!-- 두 ResultMap을 처리하는 ResultMap -->
+<resultMap type="joinvo" id="joinMap">
+	<collection property="empJ" resultMap="empMap" />
+	<collection property="deptJ" resultMap="deptMap" />
+</resultMap>
+
+<resultMap type="emp1" id="empMap1">
+ <id property="employee_id" column = "EMPLOYEE_ID"/>
+ <result property="first_name" column = "FIRST_NAME"/>
+ <result property="job_id" column = "JOB_ID"/>
+ <result property="manager_id" column = "MANAGER_ID"/>
+ <result property="start_date" column = "START_DATE"/>
+ <result property="salary" column = "SALARY"/>
+ <result property="commission_pct" column = "COMMISSION_PCT"/>
+ <result property="department_id" column = "DEPARTMENT_ID"/>
+</resultMap>
+
+<resultMap type="dept1" id="deptMap1">
+   <id property="department_id" column="DEPARTMENT_ID" /> 
+   <result property="department_name" column="DEPARTMENT_NAME"></result>
+   <result property="manager_id" column = "MANAGER_ID"/>
+   <result property="location_id" column="LOCATION_ID"></result>
+</resultMap>
+
+<resultMap type="job" id="jobMap">
+	<id property="start_date" column="START_DATE"/>
+	<result property="employee_id" column="EMPLOYEE_ID"/>
+	<result property="end_date" column="END_DATE"/>
+	<result property="job_id" column="JOB_ID"/>
+	<result property="department_id" column="DEPARTMENT_ID"/>
+</resultMap>
+
+<resultMap type="loc" id="locMap">
+	<id property="location_id" column="LOCATION_ID"/>
+	<result property="street_address" column="STREET_ADDRESS"/>
+	<result property="postal_code" column="POSTAL_CODE"/>
+	<result property="city" column="CITY"/>
+	<result property="state_province" column="STATE_PROVINCE"/>
+	<result property="country_id" column="COUNTRY_ID"/>
+</resultMap>
+
+<resultMap type="joinvo2" id="allJoin">
+	<collection property="emp1" resultMap="empMap1"/>
+	<collection property="dept1" resultMap="deptMap1"/>
+	<collection property="jobJ" resultMap="jobMap"/>
+	<collection property="locJ" resultMap="locMap"/>
+</resultMap>
+
+
+<insert id="insertJoin">
+	<![CDATA[
+
+	]]>
+</insert>
+
+<update id="updateJoin">
+	<![CDATA[
+
+	]]>
+
+</update>
+
+<delete id="deleteJoin">
+	<![CDATA[
+
+	]]>
+
+</delete>
+
+<select id="selectOneJoin" resultType="joinvo">
+	<![CDATA[
+
+	]]>
+</select>
+
+<select id="selectListJoin" resultMap="joinMap">
+	<![CDATA[
+		SELECT E.ENO, E.ENAME, E.JOB, E.MANAGER, E.HIREDATE, E.SALARY, E.COMMISSION, 
+		       D.DNO, D.DNAME, D.LOC
+		FROM EMPLOYEE E, DEPARTMENT D
+		WHERE E.DNO = D.DNO
+	]]>
+</select>
+
+<select id="selectListJoin2" resultType="end_vo">
+	<![CDATA[
+		SELECT E.ENO, E.ENAME, E.JOB, E.MANAGER, E.HIREDATE, E.SALARY, E.COMMISSION, 
+		       D.DNO, D.DNAME, D.LOC
+		FROM EMPLOYEE E, DEPARTMENT D
+		WHERE E.DNO = D.DNO
+	]]>
+</select>
+
+<select id="selectListJoin3" resultMap="allJoin">
+	<![CDATA[
+		SELECT * 
+		FROM EMPLOYEES E, DEPARTMENTS D, LOCATIONS L, JOB_HISTORY J 
+		WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID 
+		AND D.LOCATION_ID=L.LOCATION_ID 
+		AND J.JOB_ID=E.JOB_ID
+	]]>
+</select>
+
+<select id="selectListJoin4" resultType="allJoinVO">
+	<![CDATA[
+		SELECT * 
+		FROM EMPLOYEES E, DEPARTMENTS D, LOCATIONS L, JOB_HISTORY J 
+		WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID 
+		AND D.LOCATION_ID=L.LOCATION_ID 
+		AND J.JOB_ID=E.JOB_ID
+	]]>
+</select>
+
+</mapper>
